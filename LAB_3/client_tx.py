@@ -2,12 +2,12 @@
 import socket
 import time
 
-UDP_IP = "172.22.156.57" # Questo deve essere l'IP del ricevitore (il tuo Mac)
+UDP_IP = "172.21.156.91" # Questo deve essere l'IP del ricevitore (il tuo Mac)
 UDP_PORT = 47999
 MESSAGE_STRING = "STRINGA"
 
-print("UDP target IP: %s" % UDP_IP)
-print("UDP target port: %s" % UDP_PORT)
+print("UDP target IP: %s" %UDP_IP)
+print("UDP target port: %s" %UDP_PORT)
 
 count = 0 # Counter to count the number of packets
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # IPv4 + UDP [cite: 79]
