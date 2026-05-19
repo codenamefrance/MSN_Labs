@@ -3,7 +3,7 @@ import socket
 import time
 
 UDP_IP = "172.21.156.91" # Questo deve essere l'IP del ricevitore (il tuo Mac)
-UDP_PORT = 47999
+UDP_PORT = 48000
 MESSAGE_STRING = "STRINGA"
 
 print("UDP target IP: %s" %UDP_IP)
