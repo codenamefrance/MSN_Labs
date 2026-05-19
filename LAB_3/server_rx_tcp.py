@@ -1,22 +1,38 @@
 import socket
 
-# "0.0.0.0" indica di ascoltare su tutte le interfacce di rete del PC Linux
-UDP_IP = "0.0.0.0" 
-UDP_PORT = 47999 
+# Ascolta su tutte le interfacce
+TCP_IP = "0.0.0.0"
+TCP_PORT = 48999
 
-sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # Creazione socket IPv4 + UDP [cite: 89]
-sock.bind((UDP_IP, UDP_PORT)) # Associazione del socket all'IP e alla porta [cite: 89]
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # IPv4 + TCP
+sock.bind((TCP_IP, TCP_PORT))
 
-count = 0 # Contatore dei pacchetti ricevuti finora [cite: 60, 90]
-print("Server UDP pronto e in ascolto sulla porta %s..." % UDP_PORT)
+# Abilita il server ad accettare connessioni (massimo 1 in coda)
+sock.listen(1)
+print("Server TCP pronto. In attesa di connessione sulla porta %s..." % TCP_PORT)
 
-while True: 
-    # Ricezione del pacchetto (buffer impostato a 512 byte come da specifiche) [cite: 61, 91]
-    data, addr = sock.recvfrom(512)
-    count = count + 1 
+# Il programma si blocca qui finché il Mac non si connette
+conn, addr = sock.accept()
+print("Connessione stabilita con il Client:", addr)
+
+count = 0
+while True:
+    data = conn.recv(1024)
     
-    # Decodifica dei byte in stringa e separazione dei campi tramite la virgola [cite: 63, 92]
-    fields = data.decode().split(",") 
+    # Se 'data' è vuoto, significa che il client si è disconnesso
+    if not data:
+        print("Il Client ha chiuso la connessione.")
+        break
     
-    # Stampa formattata: stringa, numero di sequenza del pacchetto, conteggio totale [cite: 60, 93]
-    print("received message: %s, %s, %d" % (fields[0], fields[1], count)) 
+    # TCP POTREBBE UNIRE I PACCHETTI. 
+    # Separiamo usando il carattere di terminazione '$'
+    messages = data.decode().split("$")
+    
+    # Cicliamo su tutti i messaggi ricevuti in blocco (escluso l'ultimo vuoto)
+    for message in messages[:-1]:
+        fields = message.split(",") # Ora separiamo la stringa dal numero di sequenza
+        count = count + 1
+        print("received message: %s, %s, %d" % (fields[0], fields[1], count))
+
+conn.close()
+sock.close()
