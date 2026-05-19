@@ -1,7 +1,7 @@
 # server_rx.py (ex client.py)
 import socket
 
-UDP_IP = "172.22.156.57" # IP dell'interfaccia di ricezione (Mac) 
+UDP_IP = "172.22.156.96" # IP dell'interfaccia di ricezione (Mac) 
 UDP_PORT = 47999
 
 # Corretto l'errore di sintassi su SOCK_DGRAM

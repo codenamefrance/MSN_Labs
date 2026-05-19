@@ -1,7 +1,7 @@
 import socket
 
 # Ascolta su tutte le interfacce
-TCP_IP = "0.0.0.0"
+TCP_IP = "172.21.156.96"
 TCP_PORT = 48999
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # IPv4 + TCP
